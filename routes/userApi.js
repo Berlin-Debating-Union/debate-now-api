@@ -9,18 +9,18 @@ module.exports = function (sequelize) {
   User.belongsTo(Event); // adds eventId to user model
   User.belongsTo(Room); // adds roomId to user model
 
-  router.get('/', async function(req, res) {
+  router.get('/', async function(req, res, next) {
     try {
       users = await User.findAll();
       console.info('Fetching all users.');
       res.send(users);
     } catch (ex) {
-      console.error(ex);
+      next(ex);
       next('Error while fetching all users.');
     }
   });
 
-  router.get('/:id', async function(req, res) {
+  router.get('/:id', async function(req, res, next) {
     try {
       user = await User.findOne({
         where: {
@@ -35,7 +35,7 @@ module.exports = function (sequelize) {
     }
   });
 
-  router.get('/byEvent/:eventId', async function(req, res) {
+  router.get('/byEvent/:eventId', async function(req, res, next) {
     try {
       users = await User.findAll({
         where: {
@@ -50,7 +50,7 @@ module.exports = function (sequelize) {
     }
   });
 
-  router.post('/', async function(req, res) {
+  router.post('/', async function(req, res, next) {
     try {
       user = await User.create({
         name: req.body.name,
@@ -70,7 +70,7 @@ module.exports = function (sequelize) {
     }
   });
 
-  router.put('/:id', async function(req, res) {
+  router.put('/:id', async function(req, res, next) {
     try {
       User.update({
         name: req.body.name,
@@ -100,7 +100,7 @@ module.exports = function (sequelize) {
     }
   });
 
-  router.delete('/:id', async function(req, res) {
+  router.delete('/:id', async function(req, res, next) {
     try {
       User.destroy({
         where: {
