@@ -58,6 +58,8 @@ app.use('/images', imagesApi);
 
 //setup scheduled jobs
 require('./scheduled_jobs/closeEvents')(sequelize);
+require('./scheduled_jobs/deleteEvents')(sequelize);
+require('./scheduled_jobs/deleteUsers')(sequelize);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
